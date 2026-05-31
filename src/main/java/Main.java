@@ -1,7 +1,7 @@
 import br.com.zenon.constants.FilePath;
 
 import br.com.zenon.models.Transaction;
-import br.com.zenon.utils.FraudAnalyzer;
+import br.com.zenon.utils.implementations.FraudAnalyzer;
 import br.com.zenon.utils.implementations.TransactionIngestor;
 
 void main() throws IOException {

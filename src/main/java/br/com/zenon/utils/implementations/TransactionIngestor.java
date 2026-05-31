@@ -1,5 +1,6 @@
 package br.com.zenon.utils.implementations;
 
+import br.com.zenon.constants.Limits;
 import br.com.zenon.models.Transaction;
 import br.com.zenon.utils.IMapper;
 import br.com.zenon.utils.IReader;
@@ -13,7 +14,7 @@ public class TransactionIngestor {
     private List<Transaction> transactions;
 
     public TransactionIngestor(String fileName) throws IOException {
-        int limit = 50000;
+        int limit = Limits.FILE_RECORDS_EXTRACTOR;
         IO.println("Getting: " + limit + " lines");
         transactions = reader.read(mapper, fileName, limit);
     }

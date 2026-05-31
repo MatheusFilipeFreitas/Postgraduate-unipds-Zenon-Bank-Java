@@ -1,5 +1,6 @@
-package br.com.zenon.utils;
+package br.com.zenon.utils.implementations;
 
+import br.com.zenon.constants.Limits;
 import br.com.zenon.models.Transaction;
 import br.com.zenon.models.types.TransactionType;
 
@@ -10,8 +11,6 @@ import java.util.stream.Collectors;
 
 public class FraudAnalyzer {
     private List<Transaction> frauds = new ArrayList<>();
-    private final int TOP_FRAUDS_DISPLAY_LIMIT = 3;
-    private final int TOP_CLIENT_FRAUDS_DISPLAY_LIMIT = 5;
 
     public void analyze(List<Transaction> transactions) {
         getFraudsFromTransactions(transactions);
@@ -20,8 +19,8 @@ public class FraudAnalyzer {
 
     private void displayDashboard() {
         displayTotalFrauds();
-        displayTopFrauds(TOP_FRAUDS_DISPLAY_LIMIT, true);
-        displayTopFraudClients(TOP_CLIENT_FRAUDS_DISPLAY_LIMIT, true);
+        displayTopFrauds(Limits.TOP_FRAUDS_DISPLAY, true);
+        displayTopFraudClients(Limits.TOP_CLIENT_FRAUDS_DISPLAY, true);
         displayTotalAmountOfFrauds();
         displayTotalFraudsPeerType();
     }
