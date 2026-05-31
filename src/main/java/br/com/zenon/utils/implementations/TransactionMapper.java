@@ -20,7 +20,7 @@ public class TransactionMapper implements IMapper<Transaction> {
     }
 
     @Override
-    public Transaction parse(String[] values) {
+    public Transaction parse(String[] values) throws Exception {
         return transactionFactory.create(values);
     }
 }
