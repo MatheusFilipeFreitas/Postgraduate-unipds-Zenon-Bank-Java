@@ -16,7 +16,11 @@ public class ReaderCSV<T> extends AbstractReader<T> {
                 mapper.initializeHeaders(values);
                 continue;
             }
-            list.add(mapper.parse(values));
+            try {
+                list.add(mapper.parse(values));
+            } catch (Exception e) {
+                IO.println("Error: " + e.getMessage() + " -> " + line);
+            }
         }
         return list;
     }

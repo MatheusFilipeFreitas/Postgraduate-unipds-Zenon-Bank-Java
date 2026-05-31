@@ -1,6 +1,7 @@
 package br.com.zenon.utils.implementations;
 
 import br.com.zenon.constants.DefaultColumns;
+import br.com.zenon.constants.ErrorMessages;
 import br.com.zenon.models.FraudDemark;
 import br.com.zenon.models.Origin;
 import br.com.zenon.models.Transaction;
@@ -17,10 +18,22 @@ public class TransactionFactory {
         this.columnIndexMap = columnIndexMap;
     }
 
-    public Transaction create(String[] row) {
+    public Transaction create(String[] row) throws Exception {
         int step = Integer.parseInt(getValue(row, DefaultColumns.STEP));
-        TransactionType type = TransactionType.valueOf(getValue(row, DefaultColumns.TYPE).toUpperCase());
-        BigDecimal amount = new BigDecimal(getValue(row, DefaultColumns.AMOUNT));
+        TransactionType type;
+        try {
+            type = TransactionType.valueOf(getValue(row, DefaultColumns.TYPE).toUpperCase());
+        } catch (IllegalArgumentException e) {
+            throw e;
+        }
+
+        BigDecimal amount;
+        try {
+            amount = new BigDecimal(getValue(row, DefaultColumns.AMOUNT));
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException(ErrorMessages.INVALID_BIGDECIMAL_PROP);
+        }
+
 
         Origin origin = new Origin(
                 getValue(row, DefaultColumns.ORIGIN_NAME),

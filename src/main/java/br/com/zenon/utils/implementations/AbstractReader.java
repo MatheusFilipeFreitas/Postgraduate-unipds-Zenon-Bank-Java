@@ -24,7 +24,11 @@ public abstract class AbstractReader<T> implements IReader<T> {
             String line;
             while ((line = reader.readLine()) != null) {
                 if (line.isBlank()) continue;
-                list.add(mapper.parse(line.split(",")));
+                try {
+                    list.add(mapper.parse(line.split(",")));
+                } catch (Exception e) {
+                    IO.println("Error: " + e.getMessage() + " -> " + line);
+                }
                 if (list.size() >= limit) break;  // stop early
             }
             return list;
