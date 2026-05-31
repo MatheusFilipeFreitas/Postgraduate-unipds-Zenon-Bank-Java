@@ -35,5 +35,5 @@ public abstract class AbstractReader<T> implements IReader<T> {
         }
     }
 
-    protected abstract List<T> parse(String[] lines, IMapper<T> mapper);
+    protected abstract List<T> parse(String[] lines, IMapper<T> mapper) throws Exception;
 }
