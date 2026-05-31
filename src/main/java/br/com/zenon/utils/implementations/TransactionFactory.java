@@ -6,11 +6,13 @@ import br.com.zenon.models.FraudDemark;
 import br.com.zenon.models.Origin;
 import br.com.zenon.models.Transaction;
 import br.com.zenon.models.types.TransactionType;
+import br.com.zenon.utils.IAnalyzer;
+import br.com.zenon.utils.IFactory;
 
 import java.math.BigDecimal;
 import java.util.Map;
 
-public class TransactionFactory {
+public class TransactionFactory implements IFactory<Transaction> {
 
     private final Map<String, Integer> columnIndexMap;
 

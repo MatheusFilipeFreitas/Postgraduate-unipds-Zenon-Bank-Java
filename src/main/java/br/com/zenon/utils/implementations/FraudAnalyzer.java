@@ -3,13 +3,14 @@ package br.com.zenon.utils.implementations;
 import br.com.zenon.constants.Limits;
 import br.com.zenon.models.Transaction;
 import br.com.zenon.models.types.TransactionType;
+import br.com.zenon.utils.IAnalyzer;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class FraudAnalyzer {
+public class FraudAnalyzer implements IAnalyzer<Transaction> {
     private List<Transaction> frauds = new ArrayList<>();
 
     public void analyze(List<Transaction> transactions) {
