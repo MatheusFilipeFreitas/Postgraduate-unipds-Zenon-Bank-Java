@@ -7,7 +7,7 @@ import java.util.List;
 
 public class ReaderCSV<T> extends AbstractReader<T> {
     @Override
-    protected List<T> parse(String[] lines, IMapper<T> mapper) {
+    protected List<T> parse(String[] lines, IMapper<T> mapper) throws Exception {
         List<T> list = new ArrayList<>();
         for (int i = 0; i < lines.length; i++) {
             String line = lines[i];
@@ -16,11 +16,7 @@ public class ReaderCSV<T> extends AbstractReader<T> {
                 mapper.initializeHeaders(values);
                 continue;
             }
-            try {
-                list.add(mapper.parse(values));
-            } catch (Exception e) {
-                IO.println("Error: " + e.getMessage() + " -> " + line);
-            }
+            list.add(mapper.parse(values));
         }
         return list;
     }
