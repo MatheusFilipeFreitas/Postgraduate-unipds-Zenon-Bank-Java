@@ -1,46 +1,31 @@
-package br.com.zenon.utils.implementations;
+package br.com.zenon.presentation;
 
 import br.com.zenon.constants.Limits;
 import br.com.zenon.models.Transaction;
 import br.com.zenon.models.types.TransactionType;
-import br.com.zenon.utils.IAnalyzer;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.*;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
-public class FraudAnalyzer implements IAnalyzer<Transaction> {
-    private List<Transaction> frauds = new ArrayList<>();
-
-    @Override
-    public void analyze(List<Transaction> transactions) {
-        frauds = getFraudsFromTransactions(transactions);
-        displayDashboard();
+public class FraudDashboardPresenter {
+    public void display(List<Transaction> frauds) {
+        displayTotalFrauds(frauds);
+        displayTopFrauds(frauds, Limits.TOP_FRAUDS_DISPLAY, true);
+        displayTopFraudClients(frauds, Limits.TOP_CLIENT_FRAUDS_DISPLAY, true);
+        displayTotalAmountOfFrauds(frauds);
+        displayTotalFraudsPeerType(frauds);
     }
 
-    @Override
-    public List<Transaction> getFraudsFromTransactions(List<Transaction> transactions) {
-        return transactions
-                .stream()
-                .filter(transaction -> transaction.fraudDemark().isFraud())
-                .toList();
-    }
-
-    private void displayDashboard() {
-        displayTotalFrauds();
-        displayTopFrauds(Limits.TOP_FRAUDS_DISPLAY, true);
-        displayTopFraudClients(Limits.TOP_CLIENT_FRAUDS_DISPLAY, true);
-        displayTotalAmountOfFrauds();
-        displayTotalFraudsPeerType();
-    }
-
-    private void displayTotalFrauds() {
+    private void displayTotalFrauds(List<Transaction> frauds) {
         IO.println("Total Frauds: " + frauds.size());
     }
 
-    private void displayTopFrauds(int totalDisplayLimit, boolean isRevesing) {
-        Comparator<Transaction> comparator = buildComparator(Comparator.comparing(Transaction::amount), isRevesing);
+    private void displayTopFrauds(List<Transaction> frauds, int totalDisplayLimit, boolean isReversing) {
+        Comparator<Transaction> comparator = buildComparator(Comparator.comparing(Transaction::amount), isReversing);
         List<BigDecimal> topFrauds = frauds.stream()
                 .sorted(comparator)
                 .map(Transaction::amount)
@@ -51,8 +36,8 @@ public class FraudAnalyzer implements IAnalyzer<Transaction> {
         topFrauds.forEach(amount -> IO.println(formatMoney(amount)));
     }
 
-    private void displayTopFraudClients(int totalDisplayLimit, boolean isRevesing) {
-        Comparator<Transaction> comparator = buildComparator(Comparator.comparing(Transaction::amount), isRevesing);
+    private void displayTopFraudClients(List<Transaction> frauds, int totalDisplayLimit, boolean isReversing) {
+        Comparator<Transaction> comparator = buildComparator(Comparator.comparing(Transaction::amount), isReversing);
 
         List<String> topClientFrauds = frauds.stream()
                 .sorted(comparator)
@@ -67,7 +52,7 @@ public class FraudAnalyzer implements IAnalyzer<Transaction> {
         topClientFrauds.forEach(IO::println);
     }
 
-    private void displayTotalAmountOfFrauds() {
+    private void displayTotalAmountOfFrauds(List<Transaction> frauds) {
         Comparator<Transaction> comparator = buildComparator(Comparator.comparing(Transaction::amount), true);
         BigDecimal total = frauds.stream()
                 .sorted(comparator)
@@ -78,7 +63,7 @@ public class FraudAnalyzer implements IAnalyzer<Transaction> {
         IO.println("Total amount of Frauds: " + formatMoney(total));
     }
 
-    private void displayTotalFraudsPeerType() {
+    private void displayTotalFraudsPeerType(List<Transaction> frauds) {
         frauds.stream()
                 .collect(Collectors.groupingBy(Transaction::type, Collectors.counting()))
                 .entrySet().stream()
@@ -88,8 +73,8 @@ public class FraudAnalyzer implements IAnalyzer<Transaction> {
                 );
     }
 
-    private Comparator<Transaction> buildComparator(Comparator<Transaction> comparator, boolean isRevesing) {
-        if (isRevesing) {
+    private Comparator<Transaction> buildComparator(Comparator<Transaction> comparator, boolean isReversing) {
+        if (isReversing) {
             comparator = comparator.reversed();
         }
         return comparator;

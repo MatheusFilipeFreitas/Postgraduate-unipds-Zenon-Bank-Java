@@ -11,8 +11,8 @@ public class TransactionRepository implements ITransactionRepository {
     private Map<String, Transaction> transactionMap = new HashMap<>();
 
     public TransactionRepository(List<Transaction> transactions) {
-        this.transactionList = transactions;
-        convertListIntoMap(transactions);
+        this.transactionList = new ArrayList<>(transactions);
+        convertListIntoMap(this.transactionList);
     }
 
     @Override
@@ -26,7 +26,7 @@ public class TransactionRepository implements ITransactionRepository {
 
     @Override
     public List<Transaction> getAllTransactions() {
-        return transactionList;
+        return List.copyOf(transactionList);
     }
 
     private Optional<Transaction> getTransactionByOriginNameInMap(String originName) {

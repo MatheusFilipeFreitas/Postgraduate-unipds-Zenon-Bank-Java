@@ -1,7 +1,7 @@
-package br.com.zenon.utils.implementations;
+package br.com.zenon.io.implementation;
 
+import br.com.zenon.io.IMapper;
 import br.com.zenon.models.Transaction;
-import br.com.zenon.utils.IMapper;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -13,8 +13,7 @@ public class TransactionMapper implements IMapper<Transaction> {
     public void initializeHeaders(String[] headers) {
         Map<String, Integer> columnIndexMap = new HashMap<>(headers.length);
         for (int i = 0; i < headers.length; i++) {
-            String header = headers[i];
-            columnIndexMap.put(header, i);
+            columnIndexMap.put(headers[i], i);
         }
         this.transactionFactory = new TransactionFactory(columnIndexMap);
     }

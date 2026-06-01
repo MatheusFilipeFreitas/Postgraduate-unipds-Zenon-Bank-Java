@@ -1,8 +1,8 @@
-package br.com.zenon.utils.implementations;
+package br.com.zenon.io.implementation;
 
 import br.com.zenon.constants.DefaultColumns;
+import br.com.zenon.io.IMapper;
 import br.com.zenon.models.ReportTransaction;
-import br.com.zenon.utils.IMapper;
 
 import java.math.BigDecimal;
 import java.util.Arrays;
