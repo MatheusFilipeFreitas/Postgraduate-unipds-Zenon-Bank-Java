@@ -1,33 +1,27 @@
-package br.com.zenon.utils.implementations;
+package br.com.zenon.io.implementation;
 
 import br.com.zenon.constants.DefaultColumns;
 import br.com.zenon.constants.ErrorMessages;
+import br.com.zenon.io.IFactory;
 import br.com.zenon.models.FraudDemark;
 import br.com.zenon.models.Origin;
 import br.com.zenon.models.Transaction;
 import br.com.zenon.models.types.TransactionType;
-import br.com.zenon.utils.IAnalyzer;
-import br.com.zenon.utils.IFactory;
 
 import java.math.BigDecimal;
 import java.util.Map;
 
 public class TransactionFactory implements IFactory<Transaction> {
-
     private final Map<String, Integer> columnIndexMap;
 
     public TransactionFactory(Map<String, Integer> columnIndexMap) {
         this.columnIndexMap = columnIndexMap;
     }
 
+    @Override
     public Transaction create(String[] row) throws Exception {
         int step = Integer.parseInt(getValue(row, DefaultColumns.STEP));
-        TransactionType type;
-        try {
-            type = TransactionType.valueOf(getValue(row, DefaultColumns.TYPE).toUpperCase());
-        } catch (IllegalArgumentException e) {
-            throw e;
-        }
+        TransactionType type = TransactionType.valueOf(getValue(row, DefaultColumns.TYPE).toUpperCase());
 
         BigDecimal amount;
         try {
@@ -35,7 +29,6 @@ public class TransactionFactory implements IFactory<Transaction> {
         } catch (IllegalArgumentException e) {
             throw new IllegalArgumentException(ErrorMessages.INVALID_BIGDECIMAL_PROP);
         }
-
 
         Origin origin = new Origin(
                 getValue(row, DefaultColumns.ORIGIN_NAME),

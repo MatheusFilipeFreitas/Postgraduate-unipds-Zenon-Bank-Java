@@ -1,8 +1,10 @@
-package br.com.zenon.utils.implementations;
+package br.com.zenon.service.implementation;
 
-import br.com.zenon.utils.IBenchmark;
+import br.com.zenon.presentation.BenchmarkPresenter;
+import br.com.zenon.service.IBenchmark;
 
 public class Benchmark implements IBenchmark {
+    private final BenchmarkPresenter presenter = new BenchmarkPresenter();
     private long startNanos;
 
     @Override
@@ -14,6 +16,6 @@ public class Benchmark implements IBenchmark {
     public void stop() {
         long elapsedNanos = System.nanoTime() - startNanos;
         double elapsedMs = elapsedNanos / 1_000_000.0;
-        IO.println("Elapsed: " + elapsedMs + " ms");
+        presenter.printElapsed(elapsedMs);
     }
 }
