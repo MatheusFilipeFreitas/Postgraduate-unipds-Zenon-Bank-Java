@@ -12,6 +12,4 @@ public class DefaultColumns {
     public static final String DESTINATARY_NEW_BALANCE = "newbalanceDest";
     public static final String FRAUD_INDICATOR = "isFraud";
     public static final String FRAUD_FLAGGED = "isFlaggedFraud";
-
-
 }

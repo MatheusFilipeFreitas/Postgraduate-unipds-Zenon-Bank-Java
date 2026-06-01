@@ -6,15 +6,18 @@ import br.com.zenon.repository.implementation.TransactionRepository;
 import br.com.zenon.utils.implementations.Benchmark;
 import br.com.zenon.utils.implementations.FraudAnalyzer;
 import br.com.zenon.utils.implementations.TransactionIngestor;
+import br.com.zenon.utils.implementations.TransactionReport;
 
 private TransactionRepository transactionRepository;
 private FraudAnalyzer analyzer = new FraudAnalyzer();
 private Benchmark benchmark = new Benchmark();
+private TransactionReport reportTransaction = new TransactionReport();
 
-void main() throws IOException {
-    initApp();
-    displayDashboardAndAllTransactions();
-    displayBenchmark();
+void main() throws Exception, IOException {
+//    initApp();
+    reportTransaction.readReport(FilePath.CSV_FILE_PATH);
+//    displayDashboardAndAllTransactions();
+//    displayBenchmark();
 }
 
 void initApp() throws IOException {

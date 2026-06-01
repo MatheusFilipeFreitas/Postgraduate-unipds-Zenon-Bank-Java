@@ -13,9 +13,18 @@ import java.util.stream.Collectors;
 public class FraudAnalyzer implements IAnalyzer<Transaction> {
     private List<Transaction> frauds = new ArrayList<>();
 
+    @Override
     public void analyze(List<Transaction> transactions) {
-        getFraudsFromTransactions(transactions);
+        frauds = getFraudsFromTransactions(transactions);
         displayDashboard();
+    }
+
+    @Override
+    public List<Transaction> getFraudsFromTransactions(List<Transaction> transactions) {
+        return transactions
+                .stream()
+                .filter(transaction -> transaction.fraudDemark().isFraud())
+                .toList();
     }
 
     private void displayDashboard() {
@@ -84,13 +93,6 @@ public class FraudAnalyzer implements IAnalyzer<Transaction> {
             comparator = comparator.reversed();
         }
         return comparator;
-    }
-
-    private void getFraudsFromTransactions(List<Transaction> transactions) {
-        frauds = transactions
-                .stream()
-                .filter(transaction -> transaction.fraudDemark().isFraud())
-                .toList();
     }
 
     private static String formatMoney(BigDecimal value) {
