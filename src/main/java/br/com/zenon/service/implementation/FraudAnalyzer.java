@@ -1,7 +1,7 @@
 package br.com.zenon.service.implementation;
 
 import br.com.zenon.models.Transaction;
-import br.com.zenon.presentation.FraudDashboardPresenter;
+import br.com.zenon.presentation.implementation.FraudDashboardPresenter;
 import br.com.zenon.service.IAnalyzer;
 
 import java.util.List;

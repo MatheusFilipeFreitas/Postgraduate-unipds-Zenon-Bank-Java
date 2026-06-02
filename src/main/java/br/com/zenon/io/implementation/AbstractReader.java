@@ -2,7 +2,7 @@ package br.com.zenon.io.implementation;
 
 import br.com.zenon.io.IMapper;
 import br.com.zenon.io.IReader;
-import br.com.zenon.presentation.CsvParseErrorPresenter;
+import br.com.zenon.presentation.implementation.CsvParseErrorPresenter;
 
 import java.io.BufferedReader;
 import java.io.IOException;

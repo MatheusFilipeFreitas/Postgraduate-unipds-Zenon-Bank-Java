@@ -2,7 +2,7 @@ package br.com.zenon.service.implementation;
 
 import br.com.zenon.io.implementation.ReportTransactionMapper;
 import br.com.zenon.models.ReportTransaction;
-import br.com.zenon.presentation.TransactionReportPresenter;
+import br.com.zenon.presentation.implementation.TransactionReportPresenter;
 
 import java.nio.file.Files;
 import java.nio.file.Path;

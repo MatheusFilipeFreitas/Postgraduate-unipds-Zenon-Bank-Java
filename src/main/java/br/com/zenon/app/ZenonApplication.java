@@ -2,8 +2,9 @@ package br.com.zenon.app;
 
 import br.com.zenon.constants.FilePath;
 import br.com.zenon.constants.type.CollectionType;
+import br.com.zenon.io.implementation.PresenterConfiguration;
 import br.com.zenon.models.Transaction;
-import br.com.zenon.presentation.BenchmarkLookupPresenter;
+import br.com.zenon.presentation.implementation.BenchmarkLookupPresenter;
 import br.com.zenon.repository.ITransactionRepository;
 import br.com.zenon.repository.implementation.TransactionRepository;
 import br.com.zenon.service.IAnalyzer;
@@ -15,6 +16,7 @@ import br.com.zenon.service.implementation.TransactionReport;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 
 public class ZenonApplication {
@@ -22,13 +24,13 @@ public class ZenonApplication {
     private final IBenchmark benchmark = new Benchmark();
     private final TransactionReport transactionReport = new TransactionReport();
     private final BenchmarkLookupPresenter lookupPresenter = new BenchmarkLookupPresenter();
+    private final PresenterConfiguration presenterConfiguration = PresenterConfiguration.getInstance();
 
     private ITransactionRepository transactionRepository;
 
     public void run() throws Exception {
-        transactionReport.readReport(FilePath.CSV_FILE_PATH);
-        runIngestAndDashboard();
-        runBenchmarkLookup();
+        runPeerLocale(Locale.ENGLISH);
+        runPeerLocale(Locale.of("pt","BR"));
     }
 
     public void runIngestAndDashboard() throws IOException {
@@ -41,6 +43,18 @@ public class ZenonApplication {
         String targetOriginName = promptTargetName();
         handleBenchmarkByType(CollectionType.LIST, targetOriginName);
         handleBenchmarkByType(CollectionType.MAP, targetOriginName);
+    }
+
+    private void runPeerLocale(Locale locale) throws Exception {
+        presenterConfiguration.setLocale(locale);
+        runIngestAndDashboard();
+        runBenchmarkLookup();
+        runReportReader();
+    }
+
+    private void runReportReader() throws Exception {
+        lookupPresenter.printBlankLine();
+        transactionReport.readReport(FilePath.CSV_FILE_PATH);
     }
 
     private void initRepository() throws IOException {

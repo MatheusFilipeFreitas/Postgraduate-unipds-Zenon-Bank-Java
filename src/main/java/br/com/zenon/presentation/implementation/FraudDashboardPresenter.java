@@ -1,4 +1,4 @@
-package br.com.zenon.presentation;
+package br.com.zenon.presentation.implementation;
 
 import br.com.zenon.constants.Limits;
 import br.com.zenon.models.Transaction;
@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class FraudDashboardPresenter {
+public class FraudDashboardPresenter extends Presenter {
     public void display(List<Transaction> frauds) {
         displayTotalFrauds(frauds);
         displayTopFrauds(frauds, Limits.TOP_FRAUDS_DISPLAY, true);
@@ -21,7 +21,8 @@ public class FraudDashboardPresenter {
     }
 
     private void displayTotalFrauds(List<Transaction> frauds) {
-        IO.println("Total Frauds: " + frauds.size());
+        displayMessageFromKey("fraud.total");
+        IO.println(frauds.size());
     }
 
     private void displayTopFrauds(List<Transaction> frauds, int totalDisplayLimit, boolean isReversing) {
@@ -32,7 +33,7 @@ public class FraudDashboardPresenter {
                 .limit(totalDisplayLimit)
                 .toList();
 
-        IO.println("Top " + totalDisplayLimit + " Frauds with bigger amounts:");
+        displayFormattedMessage("fraud.top_amount", String.valueOf(totalDisplayLimit));
         topFrauds.forEach(amount -> IO.println(formatMoney(amount)));
     }
 
@@ -48,7 +49,7 @@ public class FraudDashboardPresenter {
                 .map(Map.Entry::getKey)
                 .toList();
 
-        IO.println("Top clients with fraud: ");
+        displayMessageFromKey("fraud.clients");
         topClientFrauds.forEach(IO::println);
     }
 
@@ -60,7 +61,8 @@ public class FraudDashboardPresenter {
                 .reduce(BigDecimal::add)
                 .orElse(BigDecimal.ZERO);
 
-        IO.println("Total amount of Frauds: " + formatMoney(total));
+        displayMessageFromKey("fraud.total_amount");
+        IO.println(formatMoney(total));
     }
 
     private void displayTotalFraudsPeerType(List<Transaction> frauds) {
