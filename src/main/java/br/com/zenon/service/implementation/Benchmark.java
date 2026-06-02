@@ -1,6 +1,6 @@
 package br.com.zenon.service.implementation;
 
-import br.com.zenon.presentation.BenchmarkPresenter;
+import br.com.zenon.presentation.implementation.BenchmarkPresenter;
 import br.com.zenon.service.IBenchmark;
 
 public class Benchmark implements IBenchmark {

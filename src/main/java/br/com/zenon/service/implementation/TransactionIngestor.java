@@ -6,7 +6,7 @@ import br.com.zenon.io.IReader;
 import br.com.zenon.io.implementation.AbstractReader;
 import br.com.zenon.io.implementation.TransactionMapper;
 import br.com.zenon.models.Transaction;
-import br.com.zenon.presentation.IngestPresenter;
+import br.com.zenon.presentation.implementation.IngestPresenter;
 
 import java.io.IOException;
 import java.util.List;
