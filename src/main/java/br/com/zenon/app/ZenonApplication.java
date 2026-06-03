@@ -3,6 +3,7 @@ package br.com.zenon.app;
 import br.com.zenon.constants.FilePath;
 import br.com.zenon.constants.type.CollectionType;
 import br.com.zenon.io.implementation.PresenterConfiguration;
+import br.com.zenon.io.implementation.TransactionMigrator;
 import br.com.zenon.models.Transaction;
 import br.com.zenon.presentation.implementation.BenchmarkLookupPresenter;
 import br.com.zenon.repository.ITransactionRepository;
@@ -15,6 +16,7 @@ import br.com.zenon.service.implementation.TransactionIngestor;
 import br.com.zenon.service.implementation.TransactionReport;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
@@ -25,12 +27,14 @@ public class ZenonApplication {
     private final TransactionReport transactionReport = new TransactionReport();
     private final BenchmarkLookupPresenter lookupPresenter = new BenchmarkLookupPresenter();
     private final PresenterConfiguration presenterConfiguration = PresenterConfiguration.getInstance();
+    private final TransactionMigrator transactionMigrator = new TransactionMigrator();
 
     private ITransactionRepository transactionRepository;
 
     public void run() throws Exception {
         runPeerLocale(Locale.ENGLISH);
         runPeerLocale(Locale.of("pt","BR"));
+        runMigration();
     }
 
     public void runIngestAndDashboard() throws IOException {
@@ -43,6 +47,11 @@ public class ZenonApplication {
         String targetOriginName = promptTargetName();
         handleBenchmarkByType(CollectionType.LIST, targetOriginName);
         handleBenchmarkByType(CollectionType.MAP, targetOriginName);
+    }
+
+    private void runMigration() throws SQLException, IOException {
+        initRepository();
+        transactionMigrator.migrate(transactionRepository.getAllTransactions());
     }
 
     private void runPeerLocale(Locale locale) throws Exception {
