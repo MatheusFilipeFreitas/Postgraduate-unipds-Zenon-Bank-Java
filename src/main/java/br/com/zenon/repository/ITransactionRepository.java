@@ -12,4 +12,5 @@ public interface ITransactionRepository {
     Optional<Transaction> getTransactionByOriginName(String originName);
     List<Transaction> getAllTransactions();
     boolean insert(Transaction transaction);
+    boolean insertAll(List<Transaction> transactions);
 }

@@ -5,6 +5,7 @@ import br.com.zenon.models.Transaction;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 public class TransactionMapper implements IMapper<Transaction> {
     private TransactionFactory transactionFactory;
@@ -19,7 +20,7 @@ public class TransactionMapper implements IMapper<Transaction> {
     }
 
     @Override
-    public Transaction parse(String[] values) throws Exception {
-        return transactionFactory.create(values);
+    public Optional<Transaction> parse(String[] values) throws Exception {
+        return Optional.ofNullable(transactionFactory.create(values));
     }
 }

@@ -9,15 +9,21 @@ import br.com.zenon.repository.utils.implementation.Database;
 
 import java.sql.SQLException;
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class TransactionRepository implements ITransactionRepository {
     private List<Transaction> transactionList = new ArrayList<>();
     private Map<String, Transaction> transactionMap = new HashMap<>();
     private Database<Transaction> database;
+    private final Logger logger = Logger.getLogger(String.valueOf(TransactionRepository.class));
 
     public TransactionRepository(List<Transaction> transactions) {
         this.transactionList = new ArrayList<>(transactions);
         convertListIntoMap(this.transactionList);
+    }
+
+    public TransactionRepository() {
         initDatabase();
     }
 
@@ -49,6 +55,19 @@ public class TransactionRepository implements ITransactionRepository {
         try
         {
             return this.database.insert(TransactionQuery.INSERT, transaction);
+        }
+        catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public boolean insertAll(List<Transaction> transactions) {
+        try {
+            this.logger.log(Level.INFO, "TransactionRepository insertAll");
+            boolean result = this.database.insertAll(TransactionQuery.INSERT, transactions);
+            this.logger.log(Level.INFO, "TransactionRepository insertAll result: " + result);
+            return result;
         }
         catch (SQLException e) {
             throw new RuntimeException(e);

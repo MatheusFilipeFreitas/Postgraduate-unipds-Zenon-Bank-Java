@@ -9,7 +9,9 @@ public class PresenterConfiguration {
     private static PresenterConfiguration instance;
 
     private PresenterConfiguration() {
+
         this.locale = Locale.getDefault();
+        setBundle();
     }
 
     public static PresenterConfiguration getInstance() {

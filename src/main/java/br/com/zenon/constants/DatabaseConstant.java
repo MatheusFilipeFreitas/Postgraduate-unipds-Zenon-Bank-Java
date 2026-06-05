@@ -5,4 +5,5 @@ public class DatabaseConstant {
     public static final String JDBC_DRIVER = "org.postgresql.Driver";
     public static final String JDBC_USER = "zenon";
     public static final String JDBC_PASSWORD = "zenon123#";
+    public static final int BATCH_SIZE = 2_500;
 }
