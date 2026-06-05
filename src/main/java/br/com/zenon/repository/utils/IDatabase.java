@@ -6,6 +6,7 @@ import java.util.Optional;
 
 public interface IDatabase<T> {
     boolean insert(String query, T t) throws SQLException;
+    boolean insertAll(String query, List<T> t) throws SQLException;
     Optional<T> get(String query, String[] params) throws SQLException;
     List<T> getAll(String query) throws SQLException;
 }

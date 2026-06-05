@@ -6,6 +6,7 @@ import br.com.zenon.models.ReportTransaction;
 
 import java.math.BigDecimal;
 import java.util.Arrays;
+import java.util.Optional;
 import java.util.stream.Stream;
 
 public class ReportTransactionMapper implements IMapper<ReportTransaction> {
@@ -35,8 +36,8 @@ public class ReportTransactionMapper implements IMapper<ReportTransaction> {
     }
 
     @Override
-    public ReportTransaction parse(String[] values) throws Exception {
-        return aggregate(Arrays.stream(values));
+    public Optional<ReportTransaction> parse(String[] values) throws Exception {
+        return Optional.ofNullable(aggregate(Arrays.stream(values)));
     }
 
     @Override

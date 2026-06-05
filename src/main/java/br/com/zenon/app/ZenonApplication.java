@@ -27,31 +27,23 @@ public class ZenonApplication {
     private final TransactionReport transactionReport = new TransactionReport();
     private final BenchmarkLookupPresenter lookupPresenter = new BenchmarkLookupPresenter();
     private final PresenterConfiguration presenterConfiguration = PresenterConfiguration.getInstance();
-    private final TransactionMigrator transactionMigrator = new TransactionMigrator();
-
     private ITransactionRepository transactionRepository;
 
     public void run() throws Exception {
         runPeerLocale(Locale.ENGLISH);
         runPeerLocale(Locale.of("pt","BR"));
-        runMigration();
     }
 
-    public void runIngestAndDashboard() throws IOException {
+    public void runIngestAndDashboard() throws Exception {
         initRepository();
         displayDashboardAndAllTransactions();
     }
 
-    public void runBenchmarkLookup() throws IOException {
+    public void runBenchmarkLookup() throws Exception {
         initRepository();
         String targetOriginName = promptTargetName();
         handleBenchmarkByType(CollectionType.LIST, targetOriginName);
         handleBenchmarkByType(CollectionType.MAP, targetOriginName);
-    }
-
-    private void runMigration() throws SQLException, IOException {
-        initRepository();
-        transactionMigrator.migrate(transactionRepository.getAllTransactions());
     }
 
     private void runPeerLocale(Locale locale) throws Exception {
@@ -66,8 +58,8 @@ public class ZenonApplication {
         transactionReport.readReport(FilePath.CSV_FILE_PATH);
     }
 
-    private void initRepository() throws IOException {
-        TransactionIngestor ingestor = new TransactionIngestor(FilePath.CSV_FILE_PATH);
+    private void initRepository() throws Exception {
+        TransactionIngestor ingestor = new TransactionIngestor(FilePath.CSV_FILE_PATH, false, null);
         transactionRepository = new TransactionRepository(ingestor.getTransactions());
     }
 
